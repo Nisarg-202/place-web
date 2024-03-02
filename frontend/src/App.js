@@ -1,13 +1,13 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
-import axios from 'axios';
-import AuthContext from './Context/AuthContext';
-import CreatePlaceScreen from './screens/CreatePlaceScreen';
-import HomeScreen from './screens/HomeScreen';
-import LoginScreen from './screens/LoginScreen';
-import MyPlaceScreen from './screens/MyPlaceScreen';
-import EditScreen from './screens/EditScreen';
-import AllPlaceScreen from './screens/AllPlaceScreen';
+import React, { useCallback, useEffect, useState } from "react";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import axios from "axios";
+import AuthContext from "./Context/AuthContext";
+import CreatePlaceScreen from "./screens/CreatePlaceScreen";
+import HomeScreen from "./screens/HomeScreen";
+import LoginScreen from "./screens/LoginScreen";
+import MyPlaceScreen from "./screens/MyPlaceScreen";
+import EditScreen from "./screens/EditScreen";
+import AllPlaceScreen from "./screens/AllPlaceScreen";
 
 function App() {
   const [isLoggedin, setisLoggedin] = useState(false);
@@ -19,10 +19,10 @@ function App() {
   }, []);
 
   async function checkUser() {
-    const token = localStorage.getItem('TOKEN');
+    const token = localStorage.getItem("TOKEN");
     if (token) {
       await axios
-        .post('http://localhost:5000/auth', {token})
+        .post(`${process.env.REACT_APP_SERVER_URL}/auth`, { token })
         .then(function (response) {
           if (response.data.condition) {
             setisLoggedin(true);
@@ -66,7 +66,7 @@ function App() {
   }
   return (
     <AuthContext.Provider
-      value={{isLoggedin: isLoggedin, login: login, logout: logout}}
+      value={{ isLoggedin: isLoggedin, login: login, logout: logout }}
     >
       <BrowserRouter>{router}</BrowserRouter>
     </AuthContext.Provider>

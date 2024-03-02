@@ -1,15 +1,15 @@
-import React, {useRef, useState} from 'react';
-import {withRouter} from 'react-router-dom';
-import axios from 'axios';
-import Navbar from '../components/Navbar';
-import './LoginScreen.css';
+import React, { useRef, useState } from "react";
+import { withRouter } from "react-router-dom";
+import axios from "axios";
+import Navbar from "../components/Navbar";
+import "./LoginScreen.css";
 
 function CreatePlaceScreen(props) {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [address, setAddress] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [address, setAddress] = useState("");
   const [image, setImage] = useState();
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [spinner, setSpinner] = useState(false);
   const imageRef = useRef(null);
 
@@ -25,22 +25,22 @@ function CreatePlaceScreen(props) {
     e.preventDefault();
     setSpinner(true);
     const formData = new FormData();
-    formData.append('image', image);
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('address', address);
-    formData.append('token', localStorage.getItem('TOKEN'));
+    formData.append("image", image);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("address", address);
+    formData.append("token", localStorage.getItem("TOKEN"));
     await axios
-      .post('https://intense-ravine-21610.herokuapp.com/create', formData)
+      .post(`${process.env.REACT_APP_SERVER_URL}/create`, formData)
       .then(function (response) {
         if (response.data.condition) {
           setSpinner(false);
-          setTitle('');
-          setDescription('');
-          setAddress('');
+          setTitle("");
+          setDescription("");
+          setAddress("");
           imageRef.current.src = null;
-          alert('Successfully Added!');
-          props.history.push('/');
+          alert("Successfully Added!");
+          props.history.push("/");
         } else {
           setSpinner(false);
           setError(response.data.message);
@@ -140,7 +140,7 @@ function CreatePlaceScreen(props) {
                     </div>
                   </div>
                 ) : (
-                  'ADD PLACE'
+                  "ADD PLACE"
                 )}
               </button>
             </div>

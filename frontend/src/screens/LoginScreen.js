@@ -1,19 +1,19 @@
-import React, {useContext, useRef, useState} from 'react';
-import axios from 'axios';
-import Recaptcha from 'react-recaptcha';
-import Navbar from '../components/Navbar';
-import AuthContext from '../Context/AuthContext';
-import './LoginScreen.css';
+import React, { useContext, useRef, useState } from "react";
+import axios from "axios";
+import Recaptcha from "react-recaptcha";
+import Navbar from "../components/Navbar";
+import AuthContext from "../Context/AuthContext";
+import "./LoginScreen.css";
 
 function LoginScreen() {
   const auth = useContext(AuthContext);
   const [captcha, setCaptcha] = useState();
   const [condition, setCondition] = useState(true);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [image, setImage] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [spinner, setSpinner] = useState(false);
   const imageRef = useRef();
   async function onHandleChange(e) {
@@ -21,15 +21,14 @@ function LoginScreen() {
     setSpinner(true);
     if (captcha) {
       if (condition) {
-        // https://intense-ravine-21610.herokuapp.com/login
         await axios
-          .post('http://localhost:5000/login', {
+          .post(`${process.env.REACT_APP_SERVER_URL}/login`, {
             email,
-            password, 
+            password,
           })
           .then(function (response) {
             if (response.data.condition) {
-              localStorage.setItem('TOKEN', response.data.token);
+              localStorage.setItem("TOKEN", response.data.token);
               auth.login();
             } else {
               setError(response.data.message);
@@ -42,15 +41,15 @@ function LoginScreen() {
           });
       } else {
         const formData = new FormData();
-        formData.append('image', image);
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('password', password);
+        formData.append("image", image);
+        formData.append("name", name);
+        formData.append("email", email);
+        formData.append("password", password);
         await axios
-          .post('http://localhost:5000/signup', formData)
+          .post(`${process.env.REACT_APP_SERVER_URL}/signup`, formData)
           .then(function (response) {
             if (response.data.condition) {
-              localStorage.setItem('TOKEN', response.data.token);
+              localStorage.setItem("TOKEN", response.data.token);
               auth.login();
             } else {
               setError(response.data.message);
@@ -64,7 +63,7 @@ function LoginScreen() {
       }
     } else {
       setSpinner(false);
-      setError('Please Enter a captcha');
+      setError("Please Enter a captcha");
     }
   }
 
@@ -83,7 +82,7 @@ function LoginScreen() {
         <div className="card rounded shadow p-3 bg-white">
           <form onSubmit={onHandleChange}>
             <h3 className="text-center">
-              {condition ? 'Login Required' : 'Sign Up Required'}
+              {condition ? "Login Required" : "Sign Up Required"}
             </h3>
             <hr />
             {!condition && (
@@ -162,13 +161,13 @@ function LoginScreen() {
               sitekey={process.env.REACT_APP_CAPTCHA_KEY}
               render="explicit"
               onloadCallback={function () {
-                console.log('Captcha loaded successfully!');
+                console.log("Captcha loaded successfully!");
               }}
               verifyCallback={function (response) {
                 setCaptcha(response);
               }}
               expiredCallback={function () {
-                setCaptcha('');
+                setCaptcha("");
               }}
             />
             <div className="form-group text-center mt-2">
@@ -191,10 +190,10 @@ function LoginScreen() {
                       </div>
                     </div>
                   ) : (
-                    'Login'
+                    "Login"
                   )
                 ) : (
-                  'Sign Up'
+                  "Sign Up"
                 )}
               </button>
             </div>
@@ -204,23 +203,23 @@ function LoginScreen() {
               className="btn btn-primary"
               onClick={function () {
                 if (condition) {
-                  setEmail('');
+                  setEmail("");
                   setImage(null);
-                  setName('');
-                  setPassword('');
+                  setName("");
+                  setPassword("");
                   setCondition(false);
-                  setError('');
+                  setError("");
                 } else {
-                  setEmail('');
+                  setEmail("");
                   setImage(null);
-                  setName('');
-                  setPassword('');
+                  setName("");
+                  setPassword("");
                   setCondition(true);
-                  setError('');
+                  setError("");
                 }
               }}
             >
-              {condition ? 'Go to Sign Up' : 'Go to Login'}
+              {condition ? "Go to Sign Up" : "Go to Login"}
             </button>
           </div>
         </div>

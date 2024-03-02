@@ -1,7 +1,7 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
-import axios from 'axios';
-import AuthContext from '../Context/AuthContext';
+import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import AuthContext from "../Context/AuthContext";
 
 function PlaceCard(props) {
   const auth = useContext(AuthContext);
@@ -10,8 +10,8 @@ function PlaceCard(props) {
 
   async function getUserId() {
     await axios
-      .post('https://intense-ravine-21610.herokuapp.com/checkId', {
-        token: localStorage.getItem('TOKEN'),
+      .post(`${process.env.REACT_APP_SERVER_URL}/checkId`, {
+        token: localStorage.getItem("TOKEN"),
       })
       .then(function (response) {
         setId(response.data.userId);
@@ -32,12 +32,9 @@ function PlaceCard(props) {
 
   async function onDeletePress() {
     await axios
-      .post(
-        `https://intense-ravine-21610.herokuapp.com/deletePlace/${props.id}`,
-        {
-          token: localStorage.getItem('TOKEN'),
-        }
-      )
+      .post(`${process.env.REACT_APP_SERVER_URL}/deletePlace/${props.id}`, {
+        token: localStorage.getItem("TOKEN"),
+      })
       .then(function (response) {
         if (response.data.condition) {
           props.getData();
@@ -49,7 +46,7 @@ function PlaceCard(props) {
   }
   return (
     <div className="d-flex justify-content-center my-3">
-      <div className="card rounded pb-3 shadow" style={{width: '30rem'}}>
+      <div className="card rounded pb-3 shadow" style={{ width: "30rem" }}>
         <img
           className="card-img-top"
           src={
@@ -78,7 +75,7 @@ function PlaceCard(props) {
               }
             }}
           >
-            {map ? 'HIDE MAP' : 'SHOW MAP'}
+            {map ? "HIDE MAP" : "SHOW MAP"}
           </button>
           {auth.isLoggedin && props.userId === id && (
             <Link className="btn btn-primary" to={`/edit/${props.id}`}>

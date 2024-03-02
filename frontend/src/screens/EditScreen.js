@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-import Navbar from '../components/Navbar';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Navbar from "../components/Navbar";
 
 function EditScreen(props) {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [error, setError] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [error, setError] = useState("");
   const [spinner, setSpinner] = useState(false);
 
   async function onHandleChange(e) {
@@ -13,18 +13,18 @@ function EditScreen(props) {
     setSpinner(true);
     await axios
       .post(
-        `https://intense-ravine-21610.herokuapp.com/editPlace/${props.match.params.id}`,
+        `${process.env.REACT_APP_SERVER_URL}/editPlace/${props.match.params.id}`,
         {
           title,
           description,
-          token: localStorage.getItem('TOKEN'),
+          token: localStorage.getItem("TOKEN"),
         }
       )
       .then(function (response) {
         if (response.data.condition) {
-          alert('Successfully updated!');
-          setTitle('');
-          setDescription('');
+          alert("Successfully updated!");
+          setTitle("");
+          setDescription("");
           setSpinner(false);
         } else {
           setSpinner(false);
@@ -34,16 +34,16 @@ function EditScreen(props) {
   }
 
   async function getData() {
-    setError('');
+    setError("");
     await axios
       .post(
-        `https://intense-ravine-21610.herokuapp.com/userPlace/${props.match.params.id}`,
+        `${process.env.REACT_APP_SERVER_URL}/userPlace/${props.match.params.id}`,
         {
-          token: localStorage.getItem('TOKEN'),
+          token: localStorage.getItem("TOKEN"),
         }
       )
       .then(function (response) {
-        const {title, description} = response.data.place;
+        const { title, description } = response.data.place;
         setTitle(title);
         setDescription(description);
       })
@@ -104,7 +104,7 @@ function EditScreen(props) {
                     </div>
                   </div>
                 ) : (
-                  'UPDATE PLACE'
+                  "UPDATE PLACE"
                 )}
               </button>
             </div>

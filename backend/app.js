@@ -1,18 +1,16 @@
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const fileUpload = require('express-fileupload');
-const cloudinary = require('cloudinary').v2;
-const userRoutes = require('./routes/userRoute');
+require("dotenv").config();
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const fileUpload = require("express-fileupload");
+const cloudinary = require("cloudinary").v2;
+const userRoutes = require("./routes/userRoute");
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cors({
-  origin: "https://nisargprajapati-d6b31.web.app"
-}));
+app.use(cors());
 app.use(fileUpload());
 app.use(userRoutes);
 cloudinary.config({
@@ -31,5 +29,5 @@ mongoose.connect(
 );
 
 app.listen(process.env.PORT || 5000, function () {
-  console.log('server is running on port 5000.');
+  console.log("server is running on port 5000.");
 });

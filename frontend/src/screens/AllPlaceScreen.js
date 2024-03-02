@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-import Navbar from '../components/Navbar';
-import PlaceCard from '../components/PlaceCard';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Navbar from "../components/Navbar";
+import PlaceCard from "../components/PlaceCard";
 
 function MyPlaceScreen(props) {
   const [places, setPlaces] = useState([]);
 
   async function getData() {
     await axios
-      .post(`https://intense-ravine-21610.herokuapp.com/places/${props.match.params.id}`)
+      .post(
+        `${process.env.REACT_APP_SERVER_URL}/places/${props.match.params.id}`
+      )
       .then(function (response) {
         setPlaces([...response.data.places]);
       })

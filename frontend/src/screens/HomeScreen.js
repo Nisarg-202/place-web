@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-import Navbar from '../components/Navbar';
-import Card from '../components/Card';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Navbar from "../components/Navbar";
+import Card from "../components/Card";
 
 function HomeScreen(props) {
   const [users, setUsers] = useState([]);
 
   async function getData() {
     await axios
-      .post('http://localhost:5000/allUser', {
-        token: localStorage.getItem('TOKEN'),
+      .post(`${process.env.REACT_APP_SERVER_URL}/allUser`, {
+        token: localStorage.getItem("TOKEN"),
       })
       .then(function (response) {
         setUsers(response.data.users);
